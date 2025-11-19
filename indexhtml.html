@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tips Mascotas 🐾</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- AUTH (LOGIN / REGISTER / RECOVER) -->
+  <div id="authWrap" class="center-wrap">
+    <!-- LOGIN -->
+    <div class="card" id="loginCard">
+      <h1>🐾 Tips Mascotas</h1>
+      <form id="loginForm">
+        <input id="loginEmail" type="email" placeholder="Correo electrónico" required />
+        <input id="loginPassword" type="password" placeholder="Contraseña" required />
+        <button type="submit">Iniciar sesión</button>
+      </form>
+      <div class="muted">
+        ¿No tienes cuenta? <span class="link" id="showRegister">Crear cuenta</span><br />
+        <span class="link" id="forgotPassLink">¿Olvidaste tu contraseña?</span>
+      </div>
+    </div>
+
+    <!-- REGISTER -->
+    <div class="card" id="registerCard" style="display:none;">
+      <h1>Crear cuenta</h1>
+      <form id="registerForm">
+        <input id="regName" type="text" placeholder="Nombre completo" required />
+        <input id="regEmail" type="email" placeholder="Correo electrónico" required />
+        <input id="regPassword" type="password" placeholder="Contraseña" required />
+        <button type="submit">Registrarse</button>
+      </form>
+      <div class="muted">
+        ¿Ya tienes cuenta? <span class="link" id="showLogin">Iniciar sesión</span>
+      </div>
+    </div>
+
+    <!-- RECOVER -->
+    <div class="card" id="recoverCard" style="display:none;">
+      <h1>Recuperar contraseña</h1>
+      <form id="recoverFormStep1">
+        <input id="recoverEmail" type="email" placeholder="Correo registrado" required />
+        <button type="submit">Enviar código</button>
+      </form>
+      <form id="recoverFormStep2" style="display:none;">
+        <input id="recoverCode" type="text" placeholder="Código de verificación" required />
+        <input id="newPassword" type="password" placeholder="Nueva contraseña" required />
+        <button type="submit">Restablecer contraseña</button>
+      </form>
+      <div class="muted">
+        <span class="link" id="backToLogin">Volver al inicio de sesión</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboard" class="dashboard" style="display:none;">
+    <aside class="sidebar">
+      <h2>🐾 Mis Mascotas</h2>
+      <ul id="petList"></ul>
+      <button id="btnAddPet" class="small-btn">➕ Agregar mascota</button>
+      <hr />
+      <button id="btnLogout" class="small-btn logout">🚪 Cerrar Sesión</button>
+    </aside>
+
+    <main class="main">
+      <div class="top-row">
+        <h2 class="greeting" id="greetingText">👋 Hola, Usuario</h2>
+        <div class="icon-grid">
+          <div class="icon-card" id="btnVideos">🎥<p>Videos Educativos</p></div>
+          <div class="icon-card" id="btnPets">🐶<p>Mi Mascota</p></div>
+          <div class="icon-card" id="btnTips">💬<p>Tips Rápidos</p></div>
+          <div class="icon-card" id="btnVacc">💉<p>Vacunaciones</p></div>
+        </div>
+      </div>
+
+      <!-- AREA DINÁMICA PRINCIPAL -->
+      <div id="contentArea">
+        <!-- PET DETAILS (por defecto) -->
+        <div id="petDetailArea"></div>
+
+        <!-- RECORDATORIOS -->
+        <div class="reminders">
+          <h3>📅 Recordatorios de Salud</h3>
+          <div id="remindersList"></div>
+        </div>
+      </div>
+
+     <!-- VIDEOS SECTION (permanece igual) -->
+<div id="videosSection" style="display:none;">
+  <h3>🎥 Videos Educativos</h3>
+  <p>Aprende sobre el cuidado responsable de tus mascotas.</p>
+
+  <div class="video-grid">
+
+    <!-- Video 1 (YouTube) -->
+    <iframe 
+      width="300" height="170"
+      src="https://www.youtube.com/embed/-6kzadT2z8w"
+      frameborder="0" allowfullscreen>
+    </iframe>
+
+    <!-- Video 2 (YouTube) -->
+    <iframe 
+      width="300" height="170"
+      src="https://www.youtube.com/embed/4bG-JS2kODg"
+      frameborder="0" allowfullscreen>
+    </iframe>
+
+    <!-- Video 3 (YouTube) -->
+    <iframe 
+      width="300" height="170"
+      src="https://www.youtube.com/embed/-6kzadT2z8w"
+      frameborder="0" allowfullscreen>
+    </iframe>
+
+  </div>
+
+  <button id="backToHomeFromVideos" class="small-btn">⬅️ Volver</button>
+</div>
+
+
+
+      <!-- PETS SECTION (se muestra al pulsar 'Mi Mascota') -->
+      <div id="petsSection" style="display:none;">
+        <h3>🐶 Mis Mascotas</h3>
+        <div id="petsArea"></div> <!-- Aquí carga el formulario / detalle dinámico -->
+        <button id="backToHomeFromPets" class="small-btn">⬅️ Volver</button>
+      </div>
+
+      <!-- TIPS RAPIDOS: acordeones (6) con scroll interno -->
+      <div id="tipsSection" style="display:none;">
+        <h3>💬 Tips Rápidos</h3>
+
+        <!-- Acordeón 1: Salud y cuidados básicos -->
+        <div class="accordion">
+          <button class="accordion-btn">🩺 Salud y cuidados básicos</button>
+          <div class="accordion-panel">
+            <div class="panel-content" id="tips_salud">
+              <!-- INSERTA AQUÍ el contenido del PDF "Tips rapidos .pdf" sección Salud y cuidados básicos --> <p><strong>Visitas veterinarias periódicas:</strong> lleva a tu mascota al veterinario al menos una vez al año para chequeos generales, vacunación y desparasitación.</p>
+<p><strong>Control de vacunas:</strong> mantén actualizado el carnet de vacunación para prevenir enfermedades graves.</p>
+<p><strong>Desparasitación interna y externa:</strong> realiza desparasitación según la edad, peso y especie. Consulta al veterinario sobre los productos más adecuados.</p>
+<p><strong>Ejercicio regular:</strong> asegúrate de que tu mascota tenga actividad física diaria según su raza, tamaño y edad para evitar obesidad o estrés.</p>
+<p><strong>Chequeo dental:</strong> revisa sus dientes y encías regularmente. Existen cepillos y pastas especiales para mascotas.</p>
+<p><strong>Atención temprana a síntomas:</strong> ante cualquier cambio de comportamiento, apetito o energía, consulta al veterinario inmediatamente.</p>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Acordeón 2: Alimentación -->
+        <div class="accordion">
+          <button class="accordion-btn">🍖 Alimentación</button>
+          <div class="accordion-panel">
+            <div class="panel-content" id="tips_alimentacion">
+              <!-- INSERTA AQUÍ el contenido del PDF "Tips rapidos .pdf" sección Alimentación --><p><strong>Dieta balanceada:</strong> ofrece alimento de buena calidad y adaptado a la edad, especie y tamaño de tu mascota.</p>
+<p><strong>Evita comidas humanas:</strong> algunos alimentos como el chocolate, cebolla, uvas, ajo y huesos cocidos son tóxicos para perros y gatos.</p>
+<p><strong>Agua fresca:</strong> garantiza que siempre tenga agua limpia y fresca disponible.</p>
+<p><strong>Control de porciones:</strong> evita la sobrealimentación. Sigue las recomendaciones del veterinario o del fabricante del alimento.</p>
+<p><strong>Alimentos específicos:</strong> si tu mascota tiene alergias, sobrepeso o alguna condición especial, busca fórmulas veterinarias especializadas.</p>
+<p><strong>Rutina de alimentación:</strong> mantén horarios fijos para sus comidas para fomentar buenos hábitos.</p>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Acordeón 3: Entrenamiento y comportamiento -->
+        <div class="accordion">
+          <button class="accordion-btn">🐾 Entrenamiento y comportamiento</button>
+          <div class="accordion-panel">
+            <div class="panel-content" id="tips_entrenamiento">
+              <!-- INSERTA AQUÍ el contenido del PDF "Tips rapidos .pdf" sección Entrenamiento -->
+              <p><strong>Refuerzo positivo:</strong> premia el buen comportamiento con caricias, palabras o snacks saludables.</p>
+<p><strong>Socialización:</strong> acostumbra a tu mascota desde pequeña a interactuar con personas, otros animales y distintos entornos.</p>
+<p><strong>Rutinas claras:</strong> establece horarios de paseo, comida y descanso. La constancia genera confianza.</p>
+<p><strong>Evita castigos físicos:</strong> estos generan miedo y pueden empeorar el comportamiento. Usa comandos firmes y coherentes.</p>
+<p><strong>Estimulación mental:</strong> utiliza juguetes interactivos o juegos de inteligencia para evitar el aburrimiento y el estrés.</p>
+<p><strong>Paciencia y consistencia:</strong> el aprendizaje toma tiempo; la repetición y el afecto son clave.</p>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Acordeón 4: Higiene y entorno -->
+        <div class="accordion">
+          <button class="accordion-btn">🧼 Higiene y entorno</button>
+          <div class="accordion-panel">
+            <div class="panel-content" id="tips_higiene">
+              <!-- INSERTA AQUÍ el contenido del PDF "Tips rapidos .pdf" sección Higiene -->
+              <p><strong>Baños regulares:</strong> usa productos adecuados para su especie. No bañes con demasiada frecuencia para evitar resequedad.</p>
+<p><strong>Cepillado:</strong> cepilla el pelaje según su tipo y longitud. Ayuda a eliminar pelo muerto y fortalece el vínculo con tu mascota.</p>
+<p><strong>Limpieza de ojos y orejas:</strong> revisa y limpia con productos especiales o paños húmedos recomendados por tu veterinario.</p>
+<p><strong>Uñas y almohadillas:</strong> corta las uñas regularmente y revisa las patas para evitar heridas o cuerpos extraños.</p>
+<p><strong>Espacio seguro:</strong> asegúrate de que su cama, comedero y juguetes estén en un lugar limpio, ventilado y sin riesgos.</p>
+<p><strong>Ambiente libre de peligros:</strong> evita cables sueltos, objetos pequeños o plantas tóxicas al alcance de tu mascota.</p>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Acordeón 5: Bienestar emocional -->
+        <div class="accordion">
+          <button class="accordion-btn">💕 Bienestar emocional</button>
+          <div class="accordion-panel">
+            <div class="panel-content" id="tips_bienestar">
+              <!-- INSERTA AQUÍ el contenido del PDF "Tips rapidos .pdf" sección Bienestar -->
+              <<p><strong>Atención y cariño:</strong> dedica tiempo diario a jugar, acariciar y hablar con tu mascota; el vínculo emocional mejora su salud.</p>
+<p><strong>Evita el aislamiento:</strong> los animales también sufren soledad y ansiedad si pasan mucho tiempo sin compañía.</p>
+<p><strong>Rutina estable:</strong> evita cambios bruscos de ambiente o rutina, que pueden causar estrés o depresión.</p>
+<p><strong>Estimulación positiva:</strong> juegos, paseos y nuevas experiencias ayudan a mantener su mente activa y feliz.</p>
+<p><strong>Reconoce señales de ansiedad:</strong> lamidos excesivos, pérdida de apetito o comportamientos destructivos pueden indicar estrés.</p>
+<p><strong>Tiempo de descanso:</strong> proporciona un espacio tranquilo donde pueda relajarse sin interrupciones.</p>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Acordeón 6: Seguridad -->
+        <div class="accordion">
+          <button class="accordion-btn">🦺 Seguridad</button>
+          <div class="accordion-panel">
+            <div class="panel-content" id="tips_seguridad">
+              <!-- INSERTA AQUÍ el contenido del PDF "Tips rapidos .pdf" sección Seguridad -->
+             <p><strong>Identificación:</strong> coloca una placa con su nombre y tu contacto, o considera implantar un microchip.</p>
+<p><strong>Transporte seguro:</strong> usa guacales, cinturones o arneses especiales para viajes. Nunca dejes a tu mascota sola en un vehículo.</p>
+<p><strong>Supervisión constante:</strong> no la dejes sola en espacios abiertos o cerca de ventanas sin protección.</p>
+<p><strong>Prevención de fugas:</strong> verifica que las puertas, balcones y cercas estén seguras.</p>
+<p><strong>Evita productos tóxicos:</strong> mantén fuera de su alcance insecticidas, medicamentos, detergentes y plantas peligrosas.</p>
+<p><strong>Vacunación y control sanitario:</strong> asegúrate de cumplir con las vacunas y revisiones para evitar enfermedades contagiosas.</p>
+
+            </div>
+          </div>
+        </div>
+
+        <button id="backToHomeFromTips" class="small-btn">⬅️ Volver</button>
+      </div>
+
+      <!-- VACUNACIONES: pestañas Perros / Gatos con tablas clásicas -->
+      <div id="vaccSection" style="display:none;">
+        <h3>💉 Vacunaciones</h3>
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="dogsTab">🐶 Perros</button>
+          <button class="tab-btn" data-tab="catsTab">🐱 Gatos</button>
+        </div>
+
+        <!-- PERROS TAB -->
+        <div id="dogsTab" class="tab-panel" style="display:block;">
+          <div class="table-wrap">
+            <table class="vacc-table">
+              <thead>
+                <tr>
+                  <th>Vacuna</th>
+                  <th>Edad de aplicación</th>
+                  <th>Refuerzo</th>
+                  <th>Observaciones / Recomendaciones</th>
+                </tr>
+              </thead>
+              <tbody id="vacc_dogs_body">
+                <!-- INSERTA AQUÍ las filas completas con la información del PDF Info Vacunacion.pdf (PERROS) -->
+                <!-- Ejemplo de fila: -->
+                <tr>
+                  <td>Moquillo (Distemper)</td>
+                  <td>6-8 semanas</td>
+                  <td>Cada 3-4 semanas hasta 16 semanas</td>
+                  <td>Evitar exposición a cachorros no vacunados; consultar veterinario</td>
+                </tr>
+                <!-- Reemplaza / agrega filas con todo el contenido del PDF --> <!-- 🐶 Vacunación en Perros -->
+<tr><th colspan="4" style="background:#f6d2b6;">Vacunas Esenciales</th></tr>
+
+<tr>
+  <td>Moquillo (Distemper)</td>
+  <td>6 a 8 semanas</td>
+  <td>Refuerzo cada 3 a 4 semanas hasta las 16 semanas</td>
+  <td>Es fundamental para prevenir una enfermedad viral mortal que afecta sistema respiratorio, digestivo y nervioso.</td>
+</tr>
+<tr>
+  <td>Parvovirus</td>
+  <td>6 a 8 semanas</td>
+  <td>Refuerzo cada 3 a 4 semanas hasta las 16 semanas</td>
+  <td>Previene una enfermedad altamente contagiosa que causa vómitos y diarrea severa.</td>
+</tr>
+<tr>
+  <td>Hepatitis infecciosa canina (Adenovirus tipo 1)</td>
+  <td>8 a 10 semanas</td>
+  <td>Refuerzo cada 3 a 4 semanas hasta 16 semanas</td>
+  <td>Protege el hígado y órganos vitales; suele aplicarse combinada con otras (DHPP).</td>
+</tr>
+<tr>
+  <td>Parainfluenza</td>
+  <td>8 a 10 semanas</td>
+  <td>Refuerzo junto con otras vacunas esenciales</td>
+  <td>Ayuda a prevenir la “tos de las perreras”.</td>
+</tr>
+<tr>
+  <td>Rabia</td>
+  <td>12 a 16 semanas</td>
+  <td>Refuerzo anual o según normativa local</td>
+  <td>Obligatoria por ley en muchos países; protege también a las personas.</td>
+</tr>
+
+<tr><th colspan="4" style="background:#f6d2b6;">Vacunas Opcionales o Recomendadas</th></tr>
+
+<tr>
+  <td>Bordetella (Tos de las perreras)</td>
+  <td>8 a 16 semanas</td>
+  <td>Refuerzo anual o semestral</td>
+  <td>Recomendada si el perro asiste a guarderías, parques o exposiciones.</td>
+</tr>
+<tr>
+  <td>Leptospirosis</td>
+  <td>12 semanas</td>
+  <td>Refuerzo anual</td>
+  <td>Protege contra bacterias transmitidas por orina de animales infectados; puede afectar a humanos.</td>
+</tr>
+<tr>
+  <td>Coronavirus canino</td>
+  <td>6 a 8 semanas</td>
+  <td>Refuerzo según riesgo y recomendación veterinaria</td>
+  <td>Proporciona protección adicional gastrointestinal en cachorros.</td>
+</tr>
+<tr>
+  <td>Giardia</td>
+  <td>12 semanas</td>
+  <td>Refuerzo anual</td>
+  <td>Recomendada en zonas donde hay brotes frecuentes; previene infecciones intestinales.</td>
+</tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- GATOS TAB -->
+        <div id="catsTab" class="tab-panel" style="display:none;">
+          <div class="table-wrap">
+            <table class="vacc-table">
+              <thead>
+                <tr>
+                  <th>Vacuna</th>
+                  <th>Edad de aplicación</th>
+                  <th>Refuerzo</th>
+                  <th>Observaciones / Recomendaciones</th>
+                </tr>
+              </thead>
+              <tbody id="vacc_cats_body">
+                <!-- INSERTA AQUÍ las filas completas con la información del PDF Info Vacunacion.pdf (GATOS) -->
+                <!-- Ejemplo de fila: -->
+                <tr>
+                  <td>Rinotraqueítis felina (Herpesvirus)</td>
+                  <td>8-9 semanas</td>
+                  <td>Refuerzo a las 3-4 semanas; luego anual o según protocolo</td>
+                  <td>Importante para prevención de infecciones respiratorias</td>
+                </tr>
+                <!-- Reemplaza / agrega filas con todo el contenido del PDF --><!-- 🐱 Vacunación en Gatos -->
+<tr><th colspan="4" style="background:#f6d2b6;">Vacunas Esenciales</th></tr>
+
+<tr>
+  <td>Panleucopenia felina (Parvovirus felino)</td>
+  <td>8 a 9 semanas</td>
+  <td>Refuerzo cada 3 a 4 semanas hasta las 16 semanas</td>
+  <td>Protege contra enfermedad viral grave que causa fiebre, vómito y diarrea.</td>
+</tr>
+<tr>
+  <td>Rinotraqueítis felina (Herpesvirus tipo 1)</td>
+  <td>8 a 9 semanas</td>
+  <td>Refuerzo cada 3 a 4 semanas hasta las 16 semanas</td>
+  <td>Previene enfermedades respiratorias superiores; se administra combinada (Trivalente felina).</td>
+</tr>
+<tr>
+  <td>Calicivirus felino</td>
+  <td>8 a 9 semanas</td>
+  <td>Refuerzo cada 3 a 4 semanas hasta las 16 semanas</td>
+  <td>Evita infecciones respiratorias y úlceras bucales; parte de la vacuna trivalente (FVRCP).</td>
+</tr>
+<tr>
+  <td>Rabia</td>
+  <td>12 a 16 semanas</td>
+  <td>Refuerzo anual o según normativa local</td>
+  <td>Obligatoria por ley; protege a los gatos y a los humanos.</td>
+</tr>
+
+<tr><th colspan="4" style="background:#f6d2b6;">Vacunas Complementarias o de Refuerzo</th></tr>
+
+<tr>
+  <td>Leucemia felina (FeLV)</td>
+  <td>8 a 9 semanas (si el gato sale al exterior)</td>
+  <td>Refuerzo a las 3-4 semanas; luego anual</td>
+  <td>Altamente recomendable para gatos con contacto exterior o múltiples gatos en el hogar.</td>
+</tr>
+<tr>
+  <td>Clamidiosis felina</td>
+  <td>8 a 9 semanas</td>
+  <td>Refuerzo anual</td>
+  <td>Protege contra infecciones oculares y respiratorias leves; aplicada según riesgo.</td>
+</tr>
+<tr>
+  <td>Peritonitis infecciosa felina (PIF)</td>
+  <td>16 semanas</td>
+  <td>Depende de la evaluación veterinaria</td>
+  <td>Actualmente de aplicación limitada; consultar veterinario según zona y exposición.</td>
+</tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <button id="backToHomeFromVacc" class="small-btn">⬅️ Volver</button>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- TOAST y CODEBOX (recuperación) -->
+  <div id="toast"></div>
+  <div id="codeBox"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
